@@ -1,59 +1,52 @@
 #include <iostream>
 #include <fstream>
-/* 
-class MenuGenerator
+#include <ctime>
+class RandomNumberSelector
 {
 public:
-    short getARandNum() private:
-    //random number generator
-};
-class ReadList : public MenuGenerator
-{
-    std::string getFileName(void)
+    RandomNumberSelector(short defaultMax = 1) : maximum(defaultMax) {}
+    short maximum;
+    virtual void setMax(short passMax)
     {
-        return fileName;
+        maximum = passMax;
     }
-    void setFileName(std::string str)
+    short getRandomNum(void)
     {
-        fileName.append(str);
+        short generateRandNum = randomNumberGenerator();
+        return generateRandNum;
+    }
+private:
+    short randomNumberGenerator(void)
+    {
+        /* RNG code */
+        std::srand(std::time(nullptr)); //seed
+        short randomNumber = (std::rand() % maximum);
+    }
+};
+class RandomMenuSelector : public RandomNumberSelector
+{
+public:
+    RandomMenuSelector(std::string inputFileName)
+    {
+        fileName = inputFileName;
     }
     std::string fileName;
-    std::ifstream readList("filename");
-
-short setElementNumber(void)
+    virtual void setMax(short passMax)
     {
-        short elementNumberOfList = 0;
-        std::string line;
-        if(readList.isopen())
-        {
-           while(std::getline(readList, line)) elementNumberOfList++;
-        }
-        return elementNumberOfList;
-        }
+        std::ifstream list(fileName);
+        /* 
+        import a list of strings
+        -> # of elements 
+        -> getMax(# of elements)
+        */
+    }
+
+private:
 };
- Consider ways to encapsulate the class with right functionality split the components 
- NEED to DRAW CONCEPTUAL DIAGRAM
- public or private?*/
 int main(void)
 {
-    char menuSwitch;
-    //std::ifstream normalList("normalRestBistList.txt");
-    //td::ifstream betterList("betterRestBistList.txt");
-    std::cout << " Choose menu in NORMAL or BETTER [ N   B ] : ";
-    std::cin >> menuSwitch;
-    switch (menuSwitch)
-    {
-    case 'N':
-        std::cout << "Normal List Selected" << std::endl;
-        /* code */
-        break;
-    case 'B':
-        std::cout << "Better List Selected" << std::endl;
-        /* code */
-        break;
-    default:
-        std::cout << "unknow menu type" << std::endl;
-        break;
-    }
+    /*Instantiation
+    RandMenu("string: filename")
+    */
     return 0;
 }
