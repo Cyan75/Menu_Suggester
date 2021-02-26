@@ -1,11 +1,12 @@
 #include <iostream>
 #include <fstream>
 #include <ctime>
+#include <vector>
 class RandomNumberSelector
 {
 public:
-    RandomNumberSelector(short defaultMax = 1) : maximum(defaultMax) {}
     short maximum;
+    RandomNumberSelector(short defaultMax = 1) : maximum(defaultMax) {}
     virtual void setMax(short passMax)
     {
         maximum = passMax;
@@ -15,6 +16,7 @@ public:
         short generateRandNum = randomNumberGenerator();
         return generateRandNum;
     }
+
 private:
     short randomNumberGenerator(void)
     {
@@ -31,15 +33,36 @@ public:
         fileName = inputFileName;
     }
     std::string fileName;
-    virtual void setMax(short passMax)
+    std::vector<std::string> makeList(void)
     {
+        std::vector<std::string> elements;
         std::ifstream list(fileName);
-        /* 
-        import a list of strings
-        -> # of elements 
-        -> getMax(# of elements)
+        std::string line;
+        if (list.is_open())
+        {
+            while (std::getline(list, line))
+            {
+                elements.push_back(line);
+            }
+        }
+    }
+    virtual void setMax(short numElements = 0)
+    {
+        //std::string line;
+        /*while (std::getline(list, line))
+        {
+            numElements++;
+        }
+        maximum = numElements;
         */
     }
+    /* 
+    store the elements in a vector
+    -> Extract the number
+    -> access the wished member with getRandomNumber()
+
+    if the all contents of the file are going to be stored, no need to get the number of the elements
+    */
 
 private:
 };
@@ -48,5 +71,6 @@ int main(void)
     /*Instantiation
     RandMenu("string: filename")
     */
+    RandomMenuSelector r1("normalRestBist");
     return 0;
 }
