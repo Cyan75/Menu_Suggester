@@ -23,6 +23,7 @@ private:
         /* RNG code */
         std::srand(std::time(nullptr)); //seed
         short randomNumber = (std::rand() % maximum);
+        return randomNumber;
     }
 };
 class RandomMenuSelector : public RandomNumberSelector
@@ -30,47 +31,38 @@ class RandomMenuSelector : public RandomNumberSelector
 public:
     RandomMenuSelector(std::string inputFileName)
     {
-        fileName = inputFileName;
-    }
-    std::string fileName;
-    std::vector<std::string> makeList(void)
-    {
-        std::vector<std::string> elements;
-        std::ifstream list(fileName);
+        std::ifstream listFile(inputFileName);
         std::string line;
-        if (list.is_open())
+        if (listFile.is_open())
         {
-            while (std::getline(list, line))
+            while (std::getline(listFile, line))
             {
-                elements.push_back(line);
+                list.push_back(line);
             }
         }
     }
     virtual void setMax(short numElements = 0)
     {
-        //std::string line;
-        /*while (std::getline(list, line))
+        for (std::vector<std::string>::iterator it = list.begin(); it != list.end(); ++it)
         {
-            numElements++;
+            ++numElements;
         }
         maximum = numElements;
-        */
     }
-    /* 
-    store the elements in a vector
-    -> Extract the number
-    -> access the wished member with getRandomNumber()
-
-    if the all contents of the file are going to be stored, no need to get the number of the elements
-    */
-
+    void printList(void)
+    {
+        for (std::vector<std::string>::iterator it = list.begin(); it != list.end(); ++it)
+        {
+            std::cout << *it << std::endl;
+        }
+    }
 private:
+    std::vector<std::string> list;
 };
 int main(void)
 {
-    /*Instantiation
-    RandMenu("string: filename")
-    */
-    RandomMenuSelector r1("normalRestBist");
+    RandomMenuSelector rm1("betterRestBistList.txt");
+    rm1.printList();
+    //RandomNumberSelector r1(rm1.getLengthPrintList());
     return 0;
 }
