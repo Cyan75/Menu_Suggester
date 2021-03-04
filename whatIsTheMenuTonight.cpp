@@ -41,6 +41,9 @@ public:
     //RMS needs to take strings from a txt file
     RandomMenuSelector(std::string inputFileName) : RandomNumberSelector::RandomNumberSelector()
     {
+        // what is it to use dynamic allocation in the constructor?
+        // dynamic: what for?
+        // is it always good to allocate dynamically?
         std::ifstream listFile(inputFileName);
         std::string *line = new std::string;
         short *numLines = new short;
@@ -86,7 +89,6 @@ private:
 };
 int main(void)
 {
-
     //RandomMenuSelector normalRMS("normalRestBistList.txt");
     for (short i = 0; i < 10; ++i)
     {
