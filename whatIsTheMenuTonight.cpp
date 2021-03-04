@@ -6,12 +6,23 @@ class RandomNumberSelector
 {
 public:
     short maximum;
-    RandomNumberSelector(void) //generate seed
+    //short *maximum = new short;
+    RandomNumberSelector(void) //generate seed as soon as when class is instantiated
     {
         std::srand(std::time(nullptr));
         randSeed = std::rand();
     }
-    virtual void setMax(short passMax)
+    /* ~RandomNumberSelector(void)
+    {
+        delete maximum;
+    } */
+    //most general form of setMax is to assign the passed value
+    //setMax can be redefined
+    /* 
+    how about using pure virtual
+    virtual void setMAx = 0; 
+    */
+    virtual void setMax(short &passMax)
     {
         maximum = passMax;
     }
@@ -26,25 +37,35 @@ private:
 class RandomMenuSelector : public RandomNumberSelector
 {
 public:
+    //a constructor of a derived class should also be inherited from the base class constructor
+    //RMS needs to take strings from a txt file
     RandomMenuSelector(std::string inputFileName) : RandomNumberSelector::RandomNumberSelector()
     {
         std::ifstream listFile(inputFileName);
-        std::string line;
-        short numLines = 0;
+        std::string *line = new std::string;
+        short *numLines = new short;
+        *numLines = 0;
         if (listFile.is_open())
         {
-            while (std::getline(listFile, line))
+            while (std::getline(listFile, *line))
             {
-                list.push_back(line);
+                list.push_back(*line);
                 numLines++;
             }
-            maximumMenu = numLines;
+            maximumMenu = *numLines;
         }
+        delete line;
+        delete numLines;
     }
-    virtual void setMax(void)
+    /* ~RandomMenuSelector()
+    {
+        delete maximumMenu;
+    } */
+    void setMax(void)
     {
         maximum = maximumMenu;
     }
+    //redundant -> just for debugging
     void printList(void)
     {
         for (std::vector<std::string>::iterator it = list.begin(); it != list.end(); ++it)
@@ -55,16 +76,24 @@ public:
     std::string getRanMenu(void)
     {
         std::vector<std::string>::iterator it = list.begin();
-        return (*(it+getRanNum()));
+        return (*(it + getRanNum()));
     }
+
 private:
     std::vector<std::string> list;
     short maximumMenu;
+    //short *maximumMenu = new short;
 };
 int main(void)
 {
-    RandomMenuSelector rms1("normalRestBistList.txt");
-    rms1.setMax();
-    std::cout<<rms1.getRanMenu();
+
+    //RandomMenuSelector normalRMS("normalRestBistList.txt");
+    for (short i = 0; i < 10; ++i)
+    {
+        RandomMenuSelector *normalRMS = new RandomMenuSelector("normalRestBistList.txt");
+        normalRMS->setMax();
+        std::cout << normalRMS->getRanMenu();
+        delete normalRMS;
+    }
     return 0;
 }
