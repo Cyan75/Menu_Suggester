@@ -57,27 +57,38 @@ public:
     }
     std::string selectMenuType(void)
     {
-        bool isNormal;
         char menutype;
-        std::cout << "type B to choose the better menu, press other to choose normal" << std::endl;
-        switch (menutype)
+        bool isValid = false;
+        std::string menuListName;
+        do
         {
-        case 'B':
-            isNormal = false;
-            break;
-        case 'b':
-            isNormal = false;
-            break;
-        default:
-            isNormal = true;
-            break;
-        }
-        if (isNormal == true)
-        {
-            return "normalRestBistList.txt";
-        }
-        else
-            return "betterRestBistList.txt";
+            std::cout << " NORMAL MENU OR BETTER MENU [ N / B ] : " ;
+            std::cin >> menutype;
+            switch (menutype)
+            {
+            case 'B':
+                isValid = true;
+                menuListName = "betterRestBistList.txt";
+                break;
+            case 'b':
+                isValid = true;
+                menuListName = "betterRestBistList.txt";
+                break;
+            case 'N':
+                isValid = true;
+                menuListName = "normalRestBistList.txt";
+                break;
+            case 'n':
+                isValid = true;
+                menuListName = "normalRestBistList.txt";
+                break;
+            default:
+                std::cout << "          ¡INVALID INPUT!          " << std::endl;
+                break;
+            }
+        } while (isValid == false);
+
+        return menuListName;
     }
     /* ~RandomMenuSelector()
     {
@@ -111,18 +122,9 @@ private:
 };
 int main(void)
 {
-
-    RandomMenuSelector normalRMS;
-    normalRMS.setMax();
-    std::cout << normalRMS.getRanMenu() << std::endl;
-    normalRMS.emptyList();
- //   normalRMS.printList();
-    /* for (short i = 0; i < 10; ++i)
-    {
-        RandomMenuSelector *normalRMS = new RandomMenuSelector();
-        normalRMS->setMax();
-        std::cout << normalRMS->getRanMenu();
-        delete normalRMS;
-    } */
+    RandomMenuSelector *rms = new RandomMenuSelector;
+    rms->setMax();
+    std::cout << rms->getRanMenu() << std::endl;
+    delete rms;
     return 0;
 }
