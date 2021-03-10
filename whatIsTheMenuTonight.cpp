@@ -10,15 +10,24 @@ public:
     {
         std::srand(std::time(nullptr));
         randSeed = std::rand();
+        if (randSeed < 0)
+        {
+            randSeed = -randSeed;
+        }
     }
     virtual void setMax(short &passMax)
     {
         maximum = passMax;
     }
+    short getMax(void)
+    {
+        return maximum;
+    }
     short getRanNum(void)
     {
         return (randSeed % maximum);
     }
+
 private:
     short randSeed;
 };
@@ -48,7 +57,7 @@ public:
         std::string menuListName;
         do
         {
-            std::cout << " NORMAL MENU OR BETTER MENU [ N / B ] : " ;
+            std::cout << " NORMAL MENU OR BETTER MENU [ N / B ] : ";
             std::cin >> menutype;
             switch (menutype)
             {
@@ -79,13 +88,6 @@ public:
     {
         maximum = maximumMenu;
     }
-    void printList(void)
-    {
-        for (std::vector<std::string>::iterator it = list.begin(); it != list.end(); ++it)
-        {
-            std::cout << *it << std::endl;
-        }
-    }
     std::string getRanMenu(void)
     {
         std::vector<std::string>::iterator it = list.begin();
@@ -95,6 +97,7 @@ public:
     {
         list.empty();
     }
+
 private:
     std::vector<std::string> list;
     short maximumMenu;
@@ -103,7 +106,9 @@ int main(void)
 {
     RandomMenuSelector *rms = new RandomMenuSelector;
     rms->setMax();
-    std::cout << rms->getRanMenu() << std::endl;
+    std::cout << "randMenu : " << rms->getRanMenu() << std::endl;
+    //std::cout << "maximum : " << rms->getMax() << std::endl;
+    //std::cout << "randNum : " << rms->getRanNum() << std::endl;
     delete rms;
     return 0;
 }
