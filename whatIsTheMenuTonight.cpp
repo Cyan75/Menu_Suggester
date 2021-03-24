@@ -15,17 +15,17 @@ public:
             randSeed = -randSeed;
         }
     }
-    virtual void setMax(short &passMax)
+    virtual void setMax(short maximum)
     {
-        maximum = passMax;
+        this->maximum = maximum;
     }
     short getMax(void)
     {
-        return maximum;
+        return this->maximum;
     }
     short getRanNum(void)
     {
-        return (randSeed % maximum);
+        return (randSeed % this->maximum);
     }
 
 private:
@@ -86,7 +86,7 @@ public:
     }
     void setMax(void)
     {
-        maximum = maximumMenu;
+        this->maximum = maximumMenu;
     }
     std::string getRanMenu(void)
     {
@@ -106,7 +106,7 @@ int main(void)
 {
     RandomMenuSelector *rms = new RandomMenuSelector;
     rms->setMax();
-    std::cout << "randMenu : " << rms->getRanMenu() << std::endl;
+    std::cout << "THE MENU TONIGHT : " << rms->getRanMenu() << std::endl;
     //std::cout << "maximum : " << rms->getMax() << std::endl;
     //std::cout << "randNum : " << rms->getRanNum() << std::endl;
     delete rms;
